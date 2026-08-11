@@ -9,7 +9,7 @@ from .mock_rag import retrieve
 from .pii import hash_user_id, summarize_text
 from .prompt_management import resolve_prompt
 from .tracing import get_langfuse_client, observe, tracing_enabled
-
+from .utils import get_contextvars
 
 @dataclass
 class AgentResult:
@@ -31,6 +31,7 @@ class LabAgent:
         started = time.perf_counter()
         docs = retrieve(message)
         langfuse_client = get_langfuse_client()
+
         prompt = resolve_prompt(
             langfuse_client,
             feature=feature,
@@ -52,6 +53,7 @@ class LabAgent:
                 "prompt_label": prompt.label,
                 "prompt_version": prompt.version,
                 "prompt_source": prompt.source,
+                "correlation_id": get_contextvars().get("correlation_id", "MISSING")
             },
         )
         langfuse_client.update_current_generation(
