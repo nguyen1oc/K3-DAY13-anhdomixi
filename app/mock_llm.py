@@ -1,4 +1,6 @@
 from __future__ import annotations
+from .tracing import observe
+
 
 import random
 import time
@@ -24,6 +26,7 @@ class FakeLLM:
     def __init__(self, model: str = "claude-sonnet-4-5") -> None:
         self.model = model
 
+    @observe(as_type="span")
     def generate(self, prompt: str) -> FakeResponse:
         time.sleep(0.15)
         input_tokens = max(20, len(prompt) // 4)
