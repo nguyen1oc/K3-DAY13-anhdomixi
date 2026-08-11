@@ -12,7 +12,7 @@ PII_PATTERNS: dict[str, Pattern[str]] = {
     # TODO: Add more patterns (e.g., Passport, Vietnamese address keywords)
     "passport": re.compile(r"\b[A-Z]\d{7,8}\b", re.IGNORECASE),
     "address_vn": re.compile(
-        r"\b(?:so nha|s\u1ed1 nh\u00e0|duong|\u0111\u01b0\u1eddng|phuong|ph\u01b0\u1eddng|quan|qu\u1eadn|tp\.?|thanh pho|th\u00e0nh ph\u1ed1)\b[^,.]{0,80}",
+        r"\b(?:Số\s+\d+[^,\n]+|(?:ngõ|ngách|hẻm|đường|phố|phường|xã|thị trấn|quận|huyện|thị xã|tp\.?|thành phố|tỉnh)\s+[\w\s\d/]+(?:,\s*[\w\s\d/]+)*)",
         re.IGNORECASE,
     ),
 }
