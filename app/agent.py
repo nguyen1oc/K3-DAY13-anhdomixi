@@ -83,6 +83,9 @@ class LabAgent:
             quality_score=quality_score,
         )
 
+        if hasattr(langfuse_client, "flush"):
+            langfuse_client.flush()
+
         return AgentResult(
             answer=response.text,
             latency_ms=latency_ms,

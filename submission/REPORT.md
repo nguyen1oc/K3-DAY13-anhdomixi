@@ -43,9 +43,9 @@
 ## 6. Điều tra challenge
 
 - Challenge ID: day13-k3-observability-v1 (Cohort: K3)
-- Triệu chứng từ metrics: Latency xử lý API tăng đột biến từ ~150ms lên 8,218ms – 13,532ms (vượt ngưỡng SLA 2000ms) trên toàn bộ request tính năng `refund`.
+- Triệu chứng từ metrics: Latency xử lý API tăng đột biến từ ~150ms lên 15,030ms – 24,032ms (vượt ngưỡng SLA 2000ms) trên toàn bộ request tính năng `refund`.
 - Trace ID liên quan: trace-challenge-refund-01
-- Log line/correlation ID liên quan: req-c5ba176d, req-637f86a8, req-31c36acd, req-b956de61, req-0c7676d0
+- Log line/correlation ID liên quan: req-1113cfc3, req-4dd348c8, req-1238972c, req-cf57f4b7, req-d0c8511c
 - Root cause: Sự cố `rag_slow` được bật cho feature `refund`, gây ra nghẽn (sleep delay 2.5s mỗi retry) trong quá trình truy xuất Vector DB (`app/mock_rag.py`).
 - Fix Action: Tắt cờ sự cố bằng API `POST /incidents/rag_slow/disable`.
 - Preventive Measure: Đặt max timeout (1.5s) cho hàm `retrieve()` và thiết lập Alert rule khi RAG latency p95 > 2000ms trong 5 phút.
