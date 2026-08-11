@@ -22,6 +22,17 @@ class JsonlFileProcessor:
         return event_dict
 
 
+def _scrub_value(value: Any) -> Any:
+    if isinstance(value, str):
+        return scrub_text(value)
+    if isinstance(value, dict):
+        return {key: _scrub_value(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_scrub_value(item) for item in value]
+    if isinstance(value, tuple):
+        return tuple(_scrub_value(item) for item in value)
+    return value
+
 
 def scrub_value(val: Any) -> Any:
     if isinstance(val, str):
@@ -36,7 +47,7 @@ def scrub_value(val: Any) -> Any:
 
 
 def scrub_event(_: Any, __: str, event_dict: dict[str, Any]) -> dict[str, Any]:
-    return {k: scrub_value(v) for k, v in event_dict.items()}
+    return {key: _scrub_value(value) for key, value in event_dict.items()}
 
 
 
